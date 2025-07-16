@@ -25,6 +25,12 @@ function About() {
             Email: <code>delivery@gmail.com</code> <br />
             Password: <code>deliveryboy</code>
           </li>
+          <li>
+            <strong>Admin</strong>
+            <br />
+            Email: <code>admin@gmail.com</code> <br />
+            Password: <code>admin</code>
+          </li>
         </ul>
         <p className="mt-4 text-gray-600 italic">
           Or register using your own Gmail account. Just verify the OTP sent to your email.
