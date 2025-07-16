@@ -7,6 +7,7 @@ function StaffOrders() {
   const [drivers, setDrivers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [updateError,setUpdateError]=useState(null)
 
   const [filterStatus, setFilterStatus] = useState("");
   const [filterDate, setFilterDate] = useState("");
@@ -14,6 +15,7 @@ function StaffOrders() {
   const [assignModalOpen, setAssignModalOpen] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedDriverId, setSelectedDriverId] = useState("");
+  const [prevDriver, setPrevDriver] = useState(null);
 
   const token = localStorage.getItem("access_token");
 
@@ -72,28 +74,36 @@ function StaffOrders() {
   // Update order status
   const handleUpdateStatus = async (orderId, newStatus) => {
     try {
-      await axios.patch(
+      const response=await axios.patch(
         `${API_URL}/orders/staff/update/${orderId}/`,
         { status: newStatus },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
-      );
-      setOrders((prev) =>
+        )
+      
+        if('error' in response.data){
+          setUpdateError(response.data.error)
+          return;
+        }
+        setOrders((prev) =>
         prev.map((order) =>
           order.id === orderId ? { ...order, status: newStatus } : order
         )
-      );
-    } catch {
+        );
+      
+    } catch(e) {
+      console.log(e)
       alert("Failed to update status");
     }
   };
 
   // Open assign driver modal
-  const openAssignModal = (orderId) => {
+  const openAssignModal = (orderId,driver) => {
     setSelectedOrderId(orderId);
     setSelectedDriverId("");
     setAssignModalOpen(true);
+    setPrevDriver(driver)
   };
 
   // Assign driver API call
@@ -116,6 +126,7 @@ function StaffOrders() {
           order.id === selectedOrderId
             ? {
                 ...order,
+                status:'assigned',
                 assigned_driver: selectedDriverId,
                 assigned_driver_name:
                   drivers.find(
@@ -240,7 +251,7 @@ function StaffOrders() {
 
                   <td className="py-2 px-4 space-x-2">
                     <button
-                      onClick={() => openAssignModal(id)}
+                      onClick={() => openAssignModal(id,assigned_driver_name)}
                       className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
                     >
                       Assign Driver
@@ -252,7 +263,13 @@ function StaffOrders() {
           )}
         </tbody>
       </table>
-
+      {updateError && (
+        <div>
+          <span className="font-medium text-red-500">Error:</span>
+          <span className="text-red-500">{updateError}</span>
+        </div>
+      )}
+        
       {/* Assign Driver Modal */}
       {assignModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
@@ -265,8 +282,8 @@ function StaffOrders() {
             >
               <option value="">-- Select Driver --</option>
               {drivers.map((driver) => (
-                <option key={driver.id} value={driver.id}>
-                  {driver.username}
+                <option key={driver.id} value={driver.id} >
+                  {driver.username} {driver.username==prevDriver}
                 </option>
               ))}
             </select>
@@ -282,6 +299,12 @@ function StaffOrders() {
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
               >
                 Assign
+              </button>
+              <button
+                onClick={assignDriver}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-blue-700"
+              >
+                Remove {prevDriver}
               </button>
             </div>
           </div>

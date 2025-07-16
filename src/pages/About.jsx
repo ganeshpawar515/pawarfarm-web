@@ -1,5 +1,4 @@
 function About() {
-
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded shadow-md space-y-6">
       <h1 className="text-3xl font-bold mb-4">About This App</h1>
@@ -28,20 +27,29 @@ function About() {
           </li>
         </ul>
         <p className="mt-4 text-gray-600 italic">
-          Or you can register using your own Gmail account. Just verify the OTP sent to your
-          email.
+          Or register using your own Gmail account. Just verify the OTP sent to your email.
         </p>
       </section>
 
       <section>
         <h2 className="text-xl font-semibold mb-2">Features</h2>
         <ul className="list-disc list-inside space-y-1 text-gray-700">
-          <li>Login &amp; Register</li>
-          <li>Multiple User Roles (Customer, Staff, Delivery)</li>
-          <li>Product Browsing</li>
-          <li>Order Management: Customers can place orders</li>
-          <li>Staff can change order status and assign delivery personnel</li>
-          <li>Delivery drivers can update delivery status</li>
+          <li>Login &amp; Register with OTP verification</li>
+          <li>Multiple User Roles: Customer, Staff, Delivery Driver, Admin</li>
+          <li>Customer: Browse products, add multiple products to cart, place orders</li>
+          <li>Staff: Manage orders, assign delivery drivers, update order statuses</li>
+          <li>Delivery Driver: View assigned orders, update delivery status, track delivered orders & earnings</li>
+          <li>Admin: Dashboard with stats on users, orders, revenue and real-time reports</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 className="text-xl font-semibold mb-2">Tech Stack</h2>
+        <ul className="list-disc list-inside space-y-1 text-gray-700">
+          <li>Frontend: React, Tailwind CSS</li>
+          <li>Backend: Django & Django REST Framework</li>
+          <li>Authentication: Token-based with role-specific permissions</li>
+          <li>Tools used: Cursor AI, ChatGPT (OpenAI)</li>
         </ul>
       </section>
 
@@ -84,9 +92,8 @@ function About() {
       </section>
 
       <p className="mt-6 font-semibold text-blue-600">
-        Improvement of app is ongoing — Last updated: 02-07-2025
+        This app is under active development — Last updated: 16-07-2025
       </p>
-
     </div>
   );
 }

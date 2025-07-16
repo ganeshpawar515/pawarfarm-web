@@ -12,18 +12,27 @@ import Cart from './pages/Cart';
 import CustomerOrder from './pages/CustomerOrders';
 import StaffOrders from './pages/StaffOrders';
 import About from './pages/About';
+import DeliveryOrders from './pages/DeliveryOrders';
 import Navbar from './component/Navbar';
-
+import DeliveryEarnings from './pages/DeliveryEarnings';
+import StaffAddProducts from './pages/StaffAddProducts';  
+import AdminDashboard from './pages/AdminDashboard';
+import ManageUsers from './pages/ManageUsers';
 
 function App() {
   return (
      <Router>
       <Navbar />
-      <Routes>
+      <Routes>  
+        <Route path="/admin/users" element={<ManageUsers />}/>
+        <Route path="/admin/dashboard" element={<AdminDashboard />}/>
         <Route path="/cart"  element={<Cart />}/>
+        <Route path="/delivery/orders"  element={<DeliveryOrders />}/>
+        <Route path="/delivery/earnings"  element={<DeliveryEarnings />}/>
         <Route path="/about"  element={<About />}/>
         <Route path="/customer/orders"  element={<CustomerOrder />}/>
         <Route path="/staff/orders"  element={<StaffOrders />}/>
+        <Route path="/staff/add-products"  element={<StaffAddProducts />}/>
         <Route path="/get_email_otp" element={<GetEmailOtp />}/>
         <Route path="/verify_email" element={<VerifyEmail />}/>
         <Route path="/register" element={<Register />}/>

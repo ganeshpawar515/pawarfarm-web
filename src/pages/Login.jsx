@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
+  const {login}=useAuth()
   const API_URL=import.meta.env.VITE_API_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,56 +26,48 @@ function Login() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
+  e.preventDefault();
+  setError(null);
+  setLoading(true);
 
-    try {
-      // Login and get tokens + role
-      const response = await axios.post(`${API_URL}/api/token/`, {
-        email,
-        password,
-      });
+  try {
+    const response = await axios.post(`${API_URL}/api/token/`, {
+      email,
+      password,
+    });
 
-      const { access, refresh, role } = response.data;
+    const { access, refresh, role } = response.data;
 
-      // Store tokens
-      localStorage.setItem("access_token", access);
-      localStorage.setItem("refresh_token", refresh);
+    // Store refresh token (optional, depending on your app's needs)
+    localStorage.setItem("refresh_token", refresh);
 
-      // Fetch user profile with access token
-      const profile = await fetchUserProfile(access);
+    // Login via AuthContext (this will store token + fetch profile automatically)
+    login(access);
 
-      if (profile) {
-        // Optionally, you can store user info in context or state here
+    alert("Login successful!");
 
-        alert(`Login success! Welcome, ${profile.username}`);
-        
-        // Redirect user based on role or to home
-        window.location.reload()
-        if (role === "customer") {
-          navigate("/");
-        } else if (role === "staff") {
-          navigate("/staff/dashboard");
-        } else if (role === "delivery") {
-          navigate("/delivery/orders");
-        } else {
-          navigate("/"); // fallback
-        }
-      } else {
-        setError("Failed to fetch user profile after login.");
-      }
-    } catch (err) {
-      console.log(err);
-      if (err.response && err.response.data) {
-        setError(err.response.data.detail || "Login failed");
-      } else {
-        setError("Login failed. Please try again.");
-      }
-    } finally {
-      setLoading(false);
+    // Redirect user based on role
+    if (role === "customer") {
+      navigate("/");
+    } else if (role === "staff") {
+      navigate("/");
+    } else if (role === "delivery") {
+      navigate("/delivery/orders");
+    } else {
+      navigate("/"); // fallback
     }
-  };
+  } catch (err) {
+    console.log(err);
+    if (err.response && err.response.data) {
+      setError(err.response.data.detail || "Login failed");
+    } else {
+      setError("Login failed. Please try again.");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-green-50 px-4">
