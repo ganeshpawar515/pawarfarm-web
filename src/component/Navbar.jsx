@@ -18,7 +18,7 @@ export default function Navbar() {
     <nav className="bg-green-600 p-4 text-white flex justify-between items-center">
       {/* Left side - Logo */}
       <div className="font-bold text-xl">
-        <Link to="/">PawarFarm</Link>
+        <Link to="/home">PawarFarm</Link>
       </div>
 
       {/* Middle - Navigation links */}
@@ -26,7 +26,7 @@ export default function Navbar() {
       <div className="space-x-4">
         {(!user || user.role!='delivery') &&(
           <>
-        <Link to="/" className="hover:underline">
+        <Link to="/home" className="hover:underline">
           Home
         </Link>
         <Link to="/products" className="hover:underline">

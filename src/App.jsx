@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes,Navigate, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
@@ -24,6 +24,7 @@ function App() {
      <Router>
       <Navbar />
       <Routes>  
+        <Route path="/" element={<Navigate to="/about" />} />
         <Route path="/admin/users" element={<ManageUsers />}/>
         <Route path="/admin/dashboard" element={<AdminDashboard />}/>
         <Route path="/cart"  element={<Cart />}/>
@@ -38,7 +39,7 @@ function App() {
         <Route path="/register" element={<Register />}/>
         <Route path="/login" element={<Login />}/>
         <Route path="/products/:id" element={<ProductDetail />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/products" element={<Products />} />
       </Routes>
     </Router>

@@ -41,11 +41,13 @@ function Cart() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      console.log(response.data);
       // Update quantity locally after success
       setCart((prevCart) => {
         if (!prevCart) return prevCart;
         const updatedItems = prevCart.items.map((item) =>
-          item.id === itemId ? { ...item, quantity: newQuantity } : item
+          
+          item.id === itemId ? { ...item, price: response.data.item.price,quantity: newQuantity } : item
         );
         // Calculate new total price
         const totalPrice = response.data.total_price

@@ -48,7 +48,7 @@ function Login() {
 
     // Redirect user based on role
     if (role === "customer") {
-      navigate("/");
+      navigate("/home");
     } else if (role === "staff") {
       navigate("/");
     } else if (role === "delivery") {
