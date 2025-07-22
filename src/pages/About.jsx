@@ -1,4 +1,17 @@
+import { useEffect } from "react";
+import axios from 'axios';
 function About() {
+  const API_URL = import.meta.env.VITE_API_URL
+  useEffect(()=>{
+    try{
+    axios.get(`${API_URL}/api/ping/`)
+    .then(
+      (res)=>console.log(res.data)
+    )
+    }catch(e){
+      console.log(e)
+    }
+  },[])
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded shadow-md space-y-6">
       <h1 className="text-3xl font-bold mb-4">About This App</h1>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../context/AuthContext";
 function VerifyEmail() {
   const API_URL=import.meta.env.VITE_API_URL;
   const [message, setMessage] = useState(null);
@@ -9,7 +9,7 @@ function VerifyEmail() {
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
-
+  const {fetchUserProfile} = useAuth();
   const handleVerify = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -41,7 +41,7 @@ function VerifyEmail() {
       }
 
       setMessage("Email Verified successfully!");
-
+      fetchUserProfile()
       // Delay navigation to show message
       setTimeout(() => {
         setLoading(false);
