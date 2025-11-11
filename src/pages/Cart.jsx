@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const API_URL=import.meta.env.VITE_API_URL;
@@ -9,7 +10,7 @@ function Cart() {
   const [updatingItemId, setUpdatingItemId] = useState(null); // to show spinner during update
 
   const token = localStorage.getItem("access_token");
-
+  const navigate = useNavigate()
   // Fetch cart on mount
   useEffect(() => {
     const fetchCart = async () => {
@@ -80,9 +81,23 @@ function Cart() {
       setUpdatingItemId(null);
     }
   };
+  const handleCheckout = async ()=>{
+    console.log("called checkout")
+    console.log(token)
+    try{
+      const response = await axios.post(`${API_URL}/orders/checkout_cart/`,{ },{headers: {Authorization:`Bearer ${token}`}})
+      console.log(response.data)
+      setCart(null)
+      navigate("/customer/orders")
+    } catch(err){
+      console.log(err)
+      setError(err.response.data.detail || "Checkout failed")
+    }
+
+  }
 
   if (loading) return <div className="p-6">Loading cart...</div>;
-  if (error) return <div className="p-6 text-red-600">{error}</div>;
+  // if (error) return <div className="p-6 text-red-600">{error}</div>;
   if (!cart || cart.items.length === 0)
     return <div className="p-6">Your cart is empty.</div>;
 
@@ -134,9 +149,11 @@ function Cart() {
       <div className="text-right font-bold text-xl mb-6">
         Total: ₹{cart.total_price}
       </div>
-
+        {error && (
+          <div className="mb-4 text-red-600 font-medium text-center">{error}</div>
+        )}
       <button
-        onClick={() => alert("Proceed to checkout (implement later)")}
+        onClick={() =>handleCheckout()}
         className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 transition"
       >
         Checkout

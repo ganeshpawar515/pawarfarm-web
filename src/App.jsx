@@ -18,7 +18,8 @@ import DeliveryEarnings from './pages/DeliveryEarnings';
 import StaffAddProducts from './pages/StaffAddProducts';  
 import AdminDashboard from './pages/AdminDashboard';
 import ManageUsers from './pages/ManageUsers';
-
+import PaymentList from './pages/DeliveryPayments';
+import OrderDetail from "./pages/OrderDetail";
 function App() {
   return (
      <Router>
@@ -27,6 +28,8 @@ function App() {
         <Route path="/" element={<Navigate to="/about" />} />
         <Route path="/admin/users" element={<ManageUsers />}/>
         <Route path="/admin/dashboard" element={<AdminDashboard />}/>
+        <Route path="/admin/payments" element={<PaymentList />}/>
+        <Route path="/admin/order-detail" element={<OrderDetail />} />
         <Route path="/cart"  element={<Cart />}/>
         <Route path="/delivery/orders"  element={<DeliveryOrders />}/>
         <Route path="/delivery/earnings"  element={<DeliveryEarnings />}/>

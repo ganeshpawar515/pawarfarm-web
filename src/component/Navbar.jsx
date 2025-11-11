@@ -51,11 +51,12 @@ export default function Navbar() {
             </Link>
           </>
         )}
+        <Link to="/cart" className="hover:underline">
+              Cart
+        </Link>
+        
         {isLoggedIn && user && user.role=='customer' && user.is_email_verified &&(
             <>
-            <Link to="/cart" className="hover:underline">
-              Cart
-            </Link>
             <Link to="/customer/orders" className="hover:underline">
               Orders
             </Link>
