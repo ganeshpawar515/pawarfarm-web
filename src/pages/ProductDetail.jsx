@@ -79,8 +79,8 @@ function ProductDetail() {
         }
       );
       setMessage("Order placed successfully!");
-    } catch (error) {
-      setCartError("Failed to place order");
+    } catch (err) {
+      setCartError(err.response.data.detail);
     }
   };
 
