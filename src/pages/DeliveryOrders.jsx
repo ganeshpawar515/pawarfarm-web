@@ -189,14 +189,13 @@ function DeliveryOrders() {
             onChange={(e) => handleStatusChange(order.id, e.target.value)}
             className="border rounded px-3 py-2 mr-3"
           >
-            {statusOptions.map((opt) => {
-              if(opt.value!=="delivered"){
-              return (
+            {statusOptions.map((opt) => 
+              (
               <option key={opt.value} value={opt.value}>
                 {opt.label}
               </option>
+              )
               )}
-              })}
           </select>
 
           {/* Generate OTP */}
